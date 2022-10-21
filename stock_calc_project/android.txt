@@ -1,0 +1,3 @@
+title=StocCalc
+author=NajidCo.
+orientation=portrait

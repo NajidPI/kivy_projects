@@ -1,0 +1,142 @@
+<ContentNavigationDrawer>:
+    ScrollView:
+        MDList:
+            OneLineIconListItem:
+                text: 'Welcome'
+                on_press: 
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = 'welcome'
+                IconLeftWidget:
+                    icon: 'home-variant'
+
+            OneLineIconListItem:
+                text: 'Calculator'
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = 'calculator'
+                IconLeftWidget:
+                    icon: 'calculator'
+
+            OneLineIconListItem:
+                text: 'Taquito'
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = 'quote'
+                IconLeftWidget:
+                    icon: 'tortoise'
+
+Screen:
+    
+    MDToolbar:
+        id: toolbar
+        pos_hint: {"top": 1}
+        title: 'StocCalc.'
+        left_action_items: [["menu",lambda x: nav_drawer.set_state('open')]]
+        elevation: 10
+
+    ScreenManager:
+        id: screen_manager
+
+        
+        WelcomeScreen:
+        CalculatorScreen:
+        Quote:
+
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '8dp'
+            padding: '8dp'
+
+            Image:
+                source: 'baby-yoda.jpg'
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+
+<WelcomeScreen>:
+    name: 'welcome'
+    MDLabel:
+        text: 'Welcome to StocCalc.'
+        halign: 'center'
+    MDRectangleFlatButton:
+        text: 'Begin'
+        pos_hint: {'center_x': 0.5,'center_y': 0.2}
+        on_press: root.manager.current = 'calculator'
+
+<CalculatorScreen>:
+    name: 'calculator'
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '10dp'
+        padding: '8dp'
+        size_hint_y: None
+        height: '400dp'
+
+
+        ScrollView:
+            size_hint_y: None
+            height: '240dp'
+            
+            MDList:
+
+                MDTextField:
+                    id: quantity
+                    hint_text: 'Quantity'
+                    icon_right: 'numeric'
+                    icon_right_color: app.theme_cls.primary_color
+
+                MDTextField:
+                    id: price
+                    hint_text: 'Price'
+                    helper_text: 'Per unit'
+                    helper_text_mode: 'persistent'
+                    icon_right: 'currency-usd'
+                    icon_right_color: app.theme_cls.primary_color
+
+                MDTextField:
+                    id: profit
+                    hint_text: 'Profit'
+                    helper_text: 'Enter 0 for breakeven'
+                    helper_text_mode: 'persistent'
+                    icon_right: 'cash'
+                    icon_right_color: app.theme_cls.primary_color
+
+                MDTextField:
+                    id: selling
+                    hint_text: 'Selling Price Per Unit'
+                    helper_text: 'Enter 0 for Breakeven'
+                    helper_text_mode: 'persistent'
+                    icon_right: 'currency-usd'
+                    icon_right_color: app.theme_cls.primary_color
+                
+
+        Widget:
+
+    MDRectangleFlatButton:
+        text: 'Enter'
+        pos_hint: {'center_x': 0.5,'center_y': 0.1}
+        on_press: app.show_data(quantity.text, price.text, profit.text, selling.text)
+
+    MDLabel:
+        text: 'Enter values'
+        font_style: 'Subtitle1'
+        pos_hint: {'center_x': 0.85,'center_y': 0.8}
+        size_hint_y: None
+        height: self.texture_size[1]
+
+
+
+<Quote>:
+    name: 'quote'
+    BoxLayout:
+        orientation: 'vertical'
+    
+    MDRectangleFlatButton:
+        text: 'Quote'
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        on_press: app.display_quote()
